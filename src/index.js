@@ -13,22 +13,23 @@ server.use(cors());
 
 //Criando rotas
 server.post('/sign-up', (req, res) => {
-    const body= req.body;
-    
-    const newUser = {
-        username: body.username,
-        avatar: body.avatar
+    const user = req.body;
+
+    if (user.username.length !== 0 && user.avatar.length !== 0) {
+        users.push(user);
+        return res.status(201).send('OK');
+    } else {
+        return res.status(400).send('Preencha todos os campos');    
     }
     
-    users = [...users, newUser];
 })
 
 server.post('/tweets', (req, res) => {
-    const body = req.body;
+    const user = req.body;
     
     const newTweet = {
-        username: body.username,
-        tweet: body.tweet
+        username: user.username,
+        tweet: user.tweet
     }
     
     tweets = [...tweets, newTweet];
