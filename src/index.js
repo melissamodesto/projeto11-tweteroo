@@ -25,16 +25,19 @@ server.post('/sign-up', (req, res) => {
 })
 
 server.post('/tweets', (req, res) => {
-    const user = req.body;
-    
-    const newTweet = {
-        username: user.username,
-        tweet: user.tweet
+    const tweet = {
+        username: req.body.username,
+        tweet: req.body.tweet,
+        avatar: users.find((user) => user.username === req.body.username).avatar,
+    }
+
+    if (tweet.username.length !== 0 && tweet.tweet.length !== 0) {
+        tweets.push(tweet);
+        return res.status(201).send('OK');
+    } else {
+        return res.status(400).send('Preencha todos os campos');    
     }
     
-    tweets = [...tweets, newTweet];
-    
-    res.send('OK')
 })
 
 server.get('/tweets', (req, res) => {
